@@ -187,10 +187,3 @@ The assessment highlighted the importance of validating automated vulnerability 
 
 All scanning activities were conducted within an authorized lab environment. No unauthorized systems or networks were scanned.
 
----
-
-## Author
-
-Ruchi
-
-Cybersecurity Analyst | Network Security | Vulnerability Assessment | Security Operations
