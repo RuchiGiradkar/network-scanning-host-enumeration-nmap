@@ -60,9 +60,17 @@ A host discovery scan was conducted to identify active devices within the author
 
 Identified hosts were scanned to determine exposed services and listening ports. Service fingerprinting was performed to identify technologies and protocols running on the target systems.
 
+![Service Enumeration](screenshots/1.Service%20Enumeration.png)
+
+The service enumeration results identified DNS, HTTP, and HTTPS services exposed by the target device. This helped establish the initial attack surface and determine which services required further review.
+
 ### Phase 3 – Operating System Detection
 
 Operating system fingerprinting techniques were used to determine the likely operating system and device type. The results were correlated with vendor information and service characteristics to improve confidence in the findings.
+
+![Operating System Detection](screenshots/2.Operating%20System%20Detection.png)
+
+The operating system detection results indicated a Linux-based embedded device, which aligned with the expected characteristics of a router platform.
 
 ### Phase 4 – TCP Analysis
 
@@ -72,6 +80,10 @@ TCP SYN scanning was performed to validate exposed services and compare results 
 
 UDP scanning was conducted to identify exposed UDP services and evaluate filtering behavior. Particular attention was given to interpreting open, closed, and open|filtered states due to the connectionless nature of UDP communications.
 
+![UDP Analysis](screenshots/3.%20UDP%20Scan.png)
+
+The UDP scan confirmed DNS functionality on port 53/UDP. Several ports were reported as open|filtered, which required careful interpretation because UDP services may not always respond directly to probes.
+
 ### Phase 6 – Port-State Validation
 
 Port-state reasoning analysis was performed to understand how Nmap classified ports as open, closed, or filtered. Response characteristics such as SYN-ACK and RST packets were reviewed to validate scan results.
@@ -79,6 +91,10 @@ Port-state reasoning analysis was performed to understand how Nmap classified po
 ### Phase 7 – Vulnerability Assessment
 
 Nmap NSE vulnerability scripts were executed against authorized targets to identify potential weaknesses. Findings were validated through additional analysis to reduce the likelihood of false positives.
+
+![Vulnerability Assessment](screenshots/4.Vulnerability%20Assessment.png)
+
+The vulnerability assessment identified a potential Slowloris Denial-of-Service condition affecting the HTTP and HTTPS management interfaces. The finding was treated as a candidate vulnerability requiring validation rather than an automatically confirmed issue.
 
 ---
 
@@ -222,5 +238,6 @@ The project reinforced the importance of validating automated vulnerability find
 
 All scanning activities were conducted exclusively within an authorized lab environment. No unauthorized systems, networks, or third-party infrastructure were targeted during this assessment.
 
+---
 
 Cybersecurity Analyst | Network Security | Vulnerability Assessment | Security Operations
