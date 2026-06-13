@@ -1,44 +1,52 @@
 # Network Scanning & Host Enumeration with Nmap
 
-## Project Overview
+## Overview
 
-This project demonstrates a structured network discovery and host enumeration assessment using Nmap within an authorized lab environment.
+This project demonstrates a structured network assessment conducted using Nmap within an authorized lab environment. The objective was to identify active hosts, enumerate exposed services, determine operating system characteristics, analyze TCP and UDP attack surfaces, validate potential vulnerabilities, and document security findings through a professional assessment methodology.
 
-The objective was to identify active hosts, enumerate exposed services, determine operating system characteristics, analyze TCP and UDP exposure, validate potential vulnerabilities, and document security findings using an analyst-driven methodology.
-
-The project reflects activities commonly performed by:
-
-* SOC Analysts
-* Cybersecurity Analysts
-* Vulnerability Analysts
-* Network Security Engineers
-* Penetration Testers
+The project reflects activities commonly performed by Security Operations Center (SOC) Analysts, Cybersecurity Analysts, Vulnerability Management Analysts, Network Security Engineers, and Penetration Testers during reconnaissance and security validation activities.
 
 ---
 
-## Objectives
+## Recruiter Highlights
+
+This project demonstrates:
+
+* Network Discovery and Asset Identification
+* Host Enumeration using Nmap
+* Service and Port Enumeration
+* Operating System Fingerprinting
+* TCP and UDP Analysis
+* Vulnerability Assessment using Nmap NSE
+* False Positive Validation
+* Security Reporting and Documentation
+* Risk Assessment and Remediation Planning
+
+---
+
+## Project Objectives
 
 The assessment was designed to:
 
-* Discover active hosts on the network
-* Identify exposed services and ports
-* Determine operating system characteristics
+* Discover active hosts within an authorized network
+* Identify exposed services and listening ports
+* Determine operating system characteristics of target devices
 * Analyze TCP and UDP attack surfaces
 * Validate vulnerability scan findings
-* Differentiate genuine findings from false positives
-* Produce remediation recommendations
+* Distinguish genuine findings from false positives
+* Develop remediation recommendations based on identified risks
 
 ---
 
 ## Technologies Used
 
-| Tool               | Purpose                        |
-| ------------------ | ------------------------------ |
-| Nmap               | Host discovery and enumeration |
-| NSE Scripts        | Vulnerability scanning         |
-| Windows PowerShell | Command execution              |
-| TCP/IP Networking  | Protocol analysis              |
-| Markdown           | Reporting and documentation    |
+| Technology                  | Purpose                               |
+| --------------------------- | ------------------------------------- |
+| Nmap                        | Network discovery and enumeration     |
+| Nmap Scripting Engine (NSE) | Vulnerability assessment              |
+| PowerShell                  | Command execution and data collection |
+| TCP/IP Networking           | Protocol analysis                     |
+| Markdown                    | Documentation and reporting           |
 
 ---
 
@@ -46,59 +54,45 @@ The assessment was designed to:
 
 ### Phase 1 – Host Discovery
 
-Identify active devices within the authorized subnet.
-
-```bash
-nmap -sn <subnet>/24
-```
+A host discovery scan was conducted to identify active devices within the authorized subnet. This phase established a baseline inventory of reachable systems and helped determine which devices required further investigation.
 
 ### Phase 2 – Service Enumeration
 
-Identify exposed ports and running services.
-
-```bash
-nmap -sV <target>
-```
+Identified hosts were scanned to determine exposed services and listening ports. Service fingerprinting was performed to identify technologies and protocols running on the target systems.
 
 ### Phase 3 – Operating System Detection
 
-Determine likely operating system characteristics.
+Operating system fingerprinting techniques were used to determine the likely operating system and device type. The results were correlated with vendor information and service characteristics to improve confidence in the findings.
 
-```bash
-nmap -O <target>
-```
+### Phase 4 – TCP Analysis
 
-### Phase 4 – TCP SYN Scanning
+TCP SYN scanning was performed to validate exposed services and compare results against service enumeration findings. This helped confirm the accuracy of identified ports and services.
 
-Validate open TCP services.
+### Phase 5 – UDP Analysis
 
-```bash
-nmap -sS <target>
-```
+UDP scanning was conducted to identify exposed UDP services and evaluate filtering behavior. Particular attention was given to interpreting open, closed, and open|filtered states due to the connectionless nature of UDP communications.
 
-### Phase 5 – UDP Enumeration
+### Phase 6 – Port-State Validation
 
-Identify exposed UDP services.
-
-```bash
-nmap -sU <target>
-```
-
-### Phase 6 – Port-State Analysis
-
-Analyze why ports are classified as open, closed, or filtered.
-
-```bash
-nmap --reason -p- <target>
-```
+Port-state reasoning analysis was performed to understand how Nmap classified ports as open, closed, or filtered. Response characteristics such as SYN-ACK and RST packets were reviewed to validate scan results.
 
 ### Phase 7 – Vulnerability Assessment
 
-Execute lightweight Nmap NSE vulnerability checks.
+Nmap NSE vulnerability scripts were executed against authorized targets to identify potential weaknesses. Findings were validated through additional analysis to reduce the likelihood of false positives.
 
-```bash
-nmap --script vuln <target>
-```
+---
+
+## Nmap Commands Executed
+
+| Activity                   | Command                        |
+| -------------------------- | ------------------------------ |
+| Host Discovery             | nmap -sn 192.168.1.0/24        |
+| Service Detection          | nmap -sV 192.168.1.1           |
+| Operating System Detection | nmap -O 192.168.1.1            |
+| TCP SYN Scan               | nmap -sS 192.168.1.1           |
+| UDP Scan                   | nmap -sU 192.168.1.1           |
+| Port-State Analysis        | nmap --reason -p- 192.168.1.1  |
+| Vulnerability Scan         | nmap --script vuln 192.168.1.1 |
 
 ---
 
@@ -106,84 +100,127 @@ nmap --script vuln <target>
 
 ### Host Discovery
 
-Several active hosts were identified on the local network.
+Multiple active hosts were identified within the local network. The discovered devices included network infrastructure components and endpoint systems.
 
 ### Service Enumeration
 
-The primary target exposed:
+The primary target exposed the following services:
 
-* DNS (53)
-* HTTP (80)
-* HTTPS (443)
+| Port | Service | Purpose                         |
+| ---- | ------- | ------------------------------- |
+| 53   | DNS     | Name resolution                 |
+| 80   | HTTP    | Administrative web interface    |
+| 443  | HTTPS   | Secure administrative interface |
 
-These services were consistent with expected router functionality.
+The observed services aligned with expected router functionality.
 
 ### Operating System Detection
 
-OS fingerprinting indicated a Linux-based embedded device.
+Operating system fingerprinting suggested that the target device was running a Linux-based embedded operating system. Vendor information and service behavior supported this assessment.
 
-### TCP SYN Analysis
+### TCP Analysis
 
-Open ports identified during SYN scanning matched the service detection results, confirming consistency.
+TCP SYN scan results matched the service detection results, confirming the presence of DNS, HTTP, and HTTPS services while demonstrating that the majority of TCP ports were closed.
 
 ### UDP Analysis
 
-UDP scanning confirmed DNS functionality while several ports remained in an open|filtered state due to the nature of UDP communications.
+UDP scanning confirmed DNS functionality on port 53/UDP. Several additional ports were reported as open|filtered due to a lack of response, which is common during UDP enumeration and requires careful interpretation.
 
 ### Vulnerability Assessment
 
-Nmap identified potential Slowloris DoS exposure on:
+The vulnerability assessment identified a potential Slowloris Denial-of-Service condition affecting the web management interfaces.
 
-* Port 80 (HTTP)
-* Port 443 (HTTPS)
+| Finding                 | Port    | Reference     |
+| ----------------------- | ------- | ------------- |
+| Slowloris DoS Candidate | 80/TCP  | CVE-2007-6750 |
+| Slowloris DoS Candidate | 443/TCP | CVE-2007-6750 |
 
-The findings were manually reviewed because embedded devices frequently generate false positives during automated vulnerability scanning.
+Because embedded network devices frequently return incomplete service information, these findings were treated as candidates requiring validation rather than confirmed vulnerabilities.
 
 ---
 
 ## Security Analysis
 
-The exposed services were consistent with the expected functionality of a router platform.
+The assessment revealed a relatively small attack surface with only essential management services exposed.
 
-No unexpected services such as:
+Positive observations included:
 
-* FTP
-* Telnet
-* RDP
-* SMB administration interfaces
+* No FTP services detected
+* No Telnet services detected
+* No unnecessary remote administration protocols observed
+* Majority of TCP ports closed
+* DNS exposure consistent with router functionality
 
-were observed on the primary target.
+The primary risk area involved the administrative web interfaces exposed through HTTP and HTTPS.
 
-The assessment highlighted the importance of validating automated vulnerability findings before escalation.
+The project reinforced the importance of validating automated vulnerability findings before treating them as confirmed security issues.
 
 ---
 
 ## Remediation Recommendations
 
-1. Disable remote administration where possible.
-2. Restrict management interfaces to trusted hosts.
-3. Keep firmware updated.
-4. Enable anti-DoS protections.
-5. Implement monitoring for unfamiliar devices.
-6. Periodically review exposed services.
+### High Priority
+
+* Disable remote administration from untrusted networks
+* Restrict management interfaces to authorized hosts
+* Apply the latest firmware updates
+* Enforce strong administrative credentials
+
+### Medium Priority
+
+* Enable anti-DoS protection mechanisms where available
+* Configure connection timeout settings
+* Review exposed services periodically
+* Implement network segmentation where appropriate
+
+### Continuous Improvement
+
+* Perform periodic network scans
+* Maintain an accurate asset inventory
+* Investigate unfamiliar devices promptly
+* Establish a baseline for future comparisons
 
 ---
 
 ## Skills Demonstrated
 
+### Technical Skills
+
 * Network Discovery
 * Host Enumeration
 * Service Identification
 * OS Fingerprinting
-* TCP/UDP Analysis
+* TCP Analysis
+* UDP Analysis
+* Vulnerability Assessment
 * Vulnerability Validation
-* Security Reporting
+* Security Documentation
+
+### Analyst Skills
+
+* Threat Identification
+* Security Investigation
+* Evidence Collection
 * Risk Assessment
+* Critical Thinking
+* False Positive Analysis
 * Remediation Planning
+
+---
+
+## Key Lessons Learned
+
+* UDP scan results require careful interpretation due to the connectionless nature of the protocol.
+* Automated vulnerability scans should always be validated before escalation.
+* Service enumeration and OS fingerprinting are more reliable when correlated together.
+* Effective security assessments require both technical evidence and analyst judgment.
+* Proper documentation is essential for communicating findings and recommendations.
 
 ---
 
 ## Ethical Statement
 
-All scanning activities were conducted within an authorized lab environment. No unauthorized systems or networks were scanned.
+All scanning activities were conducted exclusively within an authorized lab environment. No unauthorized systems, networks, or third-party infrastructure were targeted during this assessment.
 
+
+Cybersecurity Analyst | Network Security | Vulnerability Assessment | Security Operations
