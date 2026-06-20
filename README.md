@@ -92,7 +92,7 @@ Port-state reasoning analysis was performed to understand how Nmap classified po
 
 Nmap NSE vulnerability scripts were executed against authorized targets to identify potential weaknesses. Findings were validated through additional analysis to reduce the likelihood of false positives.
 
-![Vulnerability Assessment](screenshots/4.Vulnerability%20Assessment.png)
+![Vulnerability Assessment](screenshots/4.Vulnerability Assessment.png)
 
 The vulnerability assessment identified a potential Slowloris Denial-of-Service condition affecting the HTTP and HTTPS management interfaces. The finding was treated as a candidate vulnerability requiring validation rather than an automatically confirmed issue.
 
